@@ -3,6 +3,7 @@
 { 
   home.packages= with pkgs; [
     ripgrep
+    gh
     lazygit
     bottom
     gdu
