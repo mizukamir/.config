@@ -16,6 +16,7 @@
     firefox-bin
     google-chrome
     visidata
+    mise
   ];
   
   home.username = user;
