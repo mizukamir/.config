@@ -13,7 +13,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-firefox-darwin, home-manager }:
   let
-    settings = builtins.fromJSON (builtins.readFile ./mysettings.json);
+    settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/mysettings.json"));
       user = settings.user;
       host = settings.host;
       
