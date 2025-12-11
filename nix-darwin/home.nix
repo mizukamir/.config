@@ -46,9 +46,6 @@
     # .p10k.zsh（設定ファイル）が存在する場合、それを読み込む
     initContent = ''
       # --- 既存の .zshrc からの移植 ---
-      export DARWIN_USER=$(whoami)
-      export DARWIN_HOST=$(hostname -s)
-
       export PYENV_ROOT="$HOME/.pyenv"
       export PATH="$PYENV_ROOT/bin:$PATH"
       eval "$(pyenv init --path)"
@@ -58,5 +55,10 @@
       # ウィザードで生成された設定ファイルがあれば読み込む
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
     '';  };
-
+    
+ programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true; # Nixとの連携を高速化・強化
+    enableZshIntegration = true; # zshを使っているため必須
+  };
 }

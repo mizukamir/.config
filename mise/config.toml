@@ -1,0 +1,3 @@
+[tasks.rebuild-nix-darwin]
+description = "nix-darwinのRebuild"
+run = "cd ~/.config/nix-darwin && sudo darwin-rebuild switch --flake ~/.config/nix-darwin --impure"
