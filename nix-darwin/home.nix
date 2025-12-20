@@ -1,5 +1,11 @@
 { config, pkgs, user, gitName, gitEmail,... }:
-
+let
+  # CodeLLDBのラッパー定義 
+  # VSCode拡張機能のフォルダ奥深くにあるバイナリを 'codelldb' コマンドとして呼び出せるように
+  codelldb-wrapper = pkgs.writeShellScriptBin "codelldb" ''
+    exec "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb" "$@"
+  '';
+in
 { 
   home.packages= with pkgs; [
     ripgrep
@@ -17,6 +23,32 @@
     google-chrome
     visidata
     mise
+    rustup
+
+    # Debug
+    codelldb-wrapper
+    
+    # Python
+    # pyright
+    # ruff
+    
+    # Lua
+    # lua-language-server
+    # stylua
+
+    # TOML
+    # taplo
+
+    # JavaaScript/TypeScript
+    # eslint
+    # prettier
+
+    # TypeScript
+    # typescript-language-server
+
+    # Nix
+    # nil
+    # nixfmt-rfc-style
   ];
   
   home.username = user;
@@ -54,6 +86,11 @@
       # --- Powerlevel10k の設定 ---
       # ウィザードで生成された設定ファイルがあれば読み込む
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+      
+      # --- Rust (Cargo) のパス設定 ---
+      if [ -d "$HOME/.cargo/bin" ]; then
+        export PATH="$HOME/.cargo/bin:$PATH"
+      fi
     '';  };
     
  programs.direnv = {

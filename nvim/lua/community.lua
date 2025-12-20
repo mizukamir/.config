@@ -15,7 +15,7 @@ return {
   { import = "astrocommunity.split-and-window.colorful-winsep-nvim" },
   { import = "astrocommunity.indent.indent-blankline-nvim" },
   { import = "astrocommunity.indent.mini-indentscope" },
-  { import = "astrocommunity.scrolling.nvim-scrollbar" },
+  -- { import = "astrocommunity.scrolling.nvim-scrollbar" },
   -- { import = "astrocommunity.editing-support.rustowl" },
   -- import/override with your plugins folder
 }

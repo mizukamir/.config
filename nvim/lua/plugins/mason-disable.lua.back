@@ -1,0 +1,34 @@
+return {
+  -- 1. LSP (Language Server) の自動インストールを停止
+  {
+    "williamboman/mason-lspconfig.nvim",
+    -- optsを関数で定義して、既存の設定を上書き
+    opts = function(_, opts)
+      -- 自動インストール機能を完全に無効化
+      opts.automatic_installation = false
+
+      -- AstroNvimがデフォルトでインストールしようとするリストを空にする
+      opts.ensure_installed = {}
+    end,
+  },
+
+  -- 2. Formatter / Linter (null-ls/none-ls) の自動インストールを停止
+  {
+    "jay-babu/mason-null-ls.nvim",
+    opts = function(_, opts)
+      opts.automatic_installation = false
+      opts.ensure_installed = {}
+    end,
+  },
+
+  -- 3. Mason自体の設定（念のため）
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      -- 起動時に不足パッケージをチェックしてインストールする機能を停止
+      ui = {
+        check_outdated_packages_on_open = false,
+      },
+    },
+  },
+}

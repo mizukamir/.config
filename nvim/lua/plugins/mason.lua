@@ -1,4 +1,4 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
+-- if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 
 -- Customize Mason plugins
 
@@ -10,8 +10,21 @@ return {
     -- overrides `require("mason-lspconfig").setup(...)`
     opts = {
       ensure_installed = {
+        -- Lua
         "lua_ls",
-        -- add more arguments for adding more language servers
+
+        -- Python
+        "pyright",
+
+        -- TOML
+        "taplo",
+
+        -- JavaScript/TypeScript
+        "ts_ls",
+        "eslint",
+
+        -- Nix
+        -- "nil_ls",
       },
     },
   },
@@ -21,19 +34,27 @@ return {
     -- overrides `require("mason-null-ls").setup(...)`
     opts = {
       ensure_installed = {
+        -- Lua
         "stylua",
-        -- add more arguments for adding more null-ls sources
+
+        -- Python
+        "ruff",
+
+        -- JavaScript/TypeScript
+        "prettier",
+
+        -- Nix
+        -- "nixfmt", -- nixfmt-rfc-style相当
       },
     },
   },
-  {
-    "jay-babu/mason-nvim-dap.nvim",
-    -- overrides `require("mason-nvim-dap").setup(...)`
-    opts = {
-      ensure_installed = {
-        "python",
-        -- add more arguments for adding more debuggers
-      },
-    },
-  },
+  -- {
+  --   "jay-babu/mason-nvim-dap.nvim",
+  --   -- overrides `require("mason-nvim-dap").setup(...)`
+  --   opts = {
+  --     ensure_installed = {
+  --       -- "python", -- debugpy
+  --     },
+  --   },
+  -- },
 }
