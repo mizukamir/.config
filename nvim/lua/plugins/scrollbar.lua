@@ -2,35 +2,50 @@ return {
   "petertriho/nvim-scrollbar",
   event = { "BufReadPost", "BufNewFile" },
   dependencies = {
-    -- hlslensを依存関係として定義
     {
       "kevinhwang91/nvim-hlslens",
-      config = function() require("hlslens").setup() end,
+      config = function()
+        require("hlslens").setup {
+          calm_down = false, -- 自動でレンズを消さない
+          nearest_only = false, -- 全体を表示する
+        }
+      end,
     },
-    -- 色取得のためにCatppuccinも依存に入れておくと安全です
     "catppuccin/nvim",
   },
   config = function()
     local scrollbar = require "scrollbar"
     local colors = require("catppuccin.palettes").get_palette "latte"
 
-    -- 1. hlslensと連携するためのキーマップ設定 (ここが重要！)
-    -- これを設定しないと、n/Nを押したときにスクロールバーの表示が更新されません
+    -- 1. キーマップ設定 (文字列コマンド方式 + 強制ハイライトON)
     local opts = { noremap = true, silent = true }
-    local function set_keymap(lhs, rhs) vim.keymap.set("n", lhs, rhs, opts) end
 
-    -- 検索実行時に hlslens を起動し、スクロールバーにも通知
-    set_keymap("n", [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]])
-    set_keymap("N", [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]])
-    set_keymap("*", [[*<Cmd>lua require('hlslens').start()<CR>]])
-    set_keymap("#", [[#<Cmd>lua require('hlslens').start()<CR>]])
-    set_keymap("g*", [[g*<Cmd>lua require('hlslens').start()<CR>]])
-    set_keymap("g#", [[g#<Cmd>lua require('hlslens').start()<CR>]])
+    -- 【解説】
+    -- <Cmd>execute(...)<CR>: 通常のn動作
+    -- <Cmd>set hlsearch<CR>: ここが重要。移動するたびに強制的にハイライトを有効化します。
+    -- <Cmd>lua require('hlslens').start()<CR>: その上でレンズを起動します。
 
-    -- 検索ハイライトを消すときに hlslens も停止する
-    set_keymap("<Leader>h", ":nohlsearch<CR><Cmd>lua require('hlslens').stop()<CR>")
+    vim.keymap.set(
+      "n",
+      "n",
+      [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>set hlsearch<CR><Cmd>lua require('hlslens').start()<CR>]],
+      opts
+    )
+    vim.keymap.set(
+      "n",
+      "N",
+      [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>set hlsearch<CR><Cmd>lua require('hlslens').start()<CR>]],
+      opts
+    )
+    vim.keymap.set("n", "*", [[*<Cmd>set hlsearch<CR><Cmd>lua require('hlslens').start()<CR>]], opts)
+    vim.keymap.set("n", "#", [[#<Cmd>set hlsearch<CR><Cmd>lua require('hlslens').start()<CR>]], opts)
+    vim.keymap.set("n", "g*", [[g*<Cmd>set hlsearch<CR><Cmd>lua require('hlslens').start()<CR>]], opts)
+    vim.keymap.set("n", "g#", [[g#<Cmd>set hlsearch<CR><Cmd>lua require('hlslens').start()<CR>]], opts)
 
-    -- 2. Scrollbarのセットアップ
+    -- ハイライト解除
+    vim.keymap.set("n", "<Leader>h", ":nohlsearch<CR><Cmd>lua require('hlslens').stop()<CR>", opts)
+
+    -- 2. Scrollbar設定
     scrollbar.setup {
       show = true,
       show_in_active_only = false,
@@ -42,7 +57,7 @@ return {
       handle = {
         text = " ",
         blend = 30,
-        color = colors.blue, -- Catppuccin Latte Blue
+        color = colors.blue,
         color_nr = nil,
         highlight = "CursorColumn",
         hide_if_all_visible = true,
@@ -57,31 +72,31 @@ return {
         Search = {
           text = { "-", "=" },
           priority = 1,
-          color = colors.peach, -- Search -> Peach
+          color = colors.peach,
           highlight = "Search",
         },
         Error = {
           text = { "-", "=" },
           priority = 2,
-          color = colors.red, -- Error -> Red
+          color = colors.red,
           highlight = "DiagnosticVirtualTextError",
         },
         Warn = {
           text = { "-", "=" },
           priority = 3,
-          color = colors.yellow, -- Warn -> Yellow
+          color = colors.yellow,
           highlight = "DiagnosticVirtualTextWarn",
         },
         Info = {
           text = { "-", "=" },
           priority = 4,
-          color = colors.blue, -- Info -> Blue
+          color = colors.blue,
           highlight = "DiagnosticVirtualTextInfo",
         },
         Hint = {
           text = { "-", "=" },
           priority = 5,
-          color = colors.teal, -- Hint -> Teal
+          color = colors.teal,
           highlight = "DiagnosticVirtualTextHint",
         },
         Misc = {
@@ -118,32 +133,12 @@ return {
         "alpha",
         "neo-tree",
       },
-      autocmd = {
-        render = {
-          "BufWinEnter",
-          "TabEnter",
-          "TermEnter",
-          "WinEnter",
-          "CmdwinLeave",
-          "TextChanged",
-          "VimResized",
-          "WinScrolled",
-          "CursorMoved",
-        },
-        clear = {
-          "BufWinLeave",
-          "TabLeave",
-          "TermLeave",
-          "WinLeave",
-        },
-      },
       handlers = {
         cursor = true,
         diagnostic = true,
-        gitsigns = false, -- Gitsignsを使う場合はここをtrueにしてください
+        gitsigns = false,
         handle = true,
-        search = true, -- 【重要】hlslensと連携するために必須
-        ale = false,
+        search = true, -- hlslens連携用
       },
     }
   end,
