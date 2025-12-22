@@ -133,6 +133,25 @@ return {
         "alpha",
         "neo-tree",
       },
+      autocmd = {
+        render = {
+          "BufWinEnter",
+          "TabEnter",
+          "TermEnter",
+          "WinEnter",
+          "CmdwinLeave",
+          "TextChanged",
+          "VimResized",
+          "WinScrolled",
+          "CursorMoved", -- 【最重要】これを追加しました
+        },
+        clear = {
+          "BufWinLeave",
+          "TabLeave",
+          "TermLeave",
+          "WinLeave",
+        },
+      },
       handlers = {
         cursor = true,
         diagnostic = true,
