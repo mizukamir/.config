@@ -18,8 +18,6 @@
       host = settings.host;
       
     configuration = { pkgs, ... }: {
-      # List packages installed in system profile. To search by name, run:
-      # $ nix-env -qaP | grep wget
       environment.systemPackages = with pkgs;
         [ vim
           git
@@ -37,6 +35,16 @@
       # Used for backwards compatibility, please read the changelog before changing.
       # $ darwin-rebuild changelog
       system.stateVersion = 6;
+
+      system.primaryUser = "${user}";
+      homebrew = {
+        enable = true;
+        onActivation.cleanup = "zap"; 
+        
+        casks = [
+          "orbstack"
+        ];
+      };
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
