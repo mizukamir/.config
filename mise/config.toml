@@ -1,3 +1,11 @@
 [tasks.rebuild-nix-darwin]
 description = "nix-darwinのRebuild"
 run = "cd ~/.config/nix-darwin && sudo darwin-rebuild switch --flake ~/.config/nix-darwin --impure"
+
+[tasks.make-ubuntu2404-docker]
+description = "ubuntu24.04LTSのDocker作成"
+run = "docker run -it --name claude-sandbox ubuntu:24.04 /bin/bash"
+
+[tasks.run-ubuntu2404-docker]
+description = "ubuntu24.04LTSのDocker起動"
+run = "docker start -ai claude-sandbox"
