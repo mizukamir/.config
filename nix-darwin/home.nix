@@ -14,7 +14,6 @@ in
     bottom
     gdu
     nodejs_24
-    pyenv
     wezterm
     neovim
     fd 
@@ -77,12 +76,6 @@ in
 
     # .p10k.zsh（設定ファイル）が存在する場合、それを読み込む
     initContent = ''
-      # --- 既存の .zshrc からの移植 ---
-      export PYENV_ROOT="$HOME/.pyenv"
-      export PATH="$PYENV_ROOT/bin:$PATH"
-      eval "$(pyenv init --path)"
-      eval "$(pyenv init -)"
-
       # --- Powerlevel10k の設定 ---
       # ウィザードで生成された設定ファイルがあれば読み込む
       [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
