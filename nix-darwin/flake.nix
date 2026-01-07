@@ -46,6 +46,7 @@
         
         casks = [
           "orbstack"
+          "aerospace"
         ];
       };
 
