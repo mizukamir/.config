@@ -9,3 +9,7 @@ run = "docker run -it --name claude-sandbox ubuntu:24.04 /bin/bash"
 [tasks.run-ubuntu2404-docker]
 description = "ubuntu24.04LTSのDocker起動"
 run = "docker start -ai claude-sandbox"
+
+[tasks.setup-tailscale]
+description = "Tailscaleの初回設定コマンド"
+run = "sudo tailscale up --ssh"

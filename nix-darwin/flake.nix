@@ -23,6 +23,9 @@
           git
         ];
 
+      # Install and activation Tailscale
+      services.tailscale.enable = true;
+
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
 
