@@ -91,8 +91,8 @@ in
     initContent = ''
       # --- Powerlevel10k の設定 ---
       # ウィザードで生成された設定ファイルがあれば読み込む
-      [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      
+      [[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
       # --- Rust (Cargo) のパス設定 ---
       if [ -d "$HOME/.cargo/bin" ]; then
         export PATH="$HOME/.cargo/bin:$PATH"
