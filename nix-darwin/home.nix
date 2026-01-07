@@ -1,4 +1,4 @@
-{ config, pkgs, user, gitName, gitEmail,... }:
+{ config, pkgs, lib, user, gitName, gitEmail,... }:
 let
   # CodeLLDBのラッパー定義 
   # VSCode拡張機能のフォルダ奥深くにあるバイナリを 'codelldb' コマンドとして呼び出せるように
@@ -23,6 +23,8 @@ in
     visidata
     mise
     rustup
+    gitleaks
+    pre-commit
 
     # Debug
     codelldb-wrapper
@@ -61,6 +63,17 @@ in
     userName = gitName;
     userEmail = gitEmail;
     ignores = [ ".DS_Store" ];
+    extraConfig = {
+      init.templateDir = "${config.home.homeDirectory}/.config/.git-template";
+    };
+  };
+  home.activation = {
+    installGitHooks = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      echo "Running pre-commit init-templatedir..."
+      # pre-commitコマンドを使ってテンプレートディレクトリを初期化・更新
+      # ${pkgs.pre-commit} でNixストア内の正確なパスを参照
+      ${pkgs.pre-commit}/bin/pre-commit init-templatedir ${config.home.homeDirectory}/.config/.git-template
+    '';
   };
   programs.zsh = {
     enable = true; 
