@@ -42,12 +42,17 @@
       system.primaryUser = "${user}";
       homebrew = {
         enable = true;
-        onActivation.cleanup = "zap"; 
+          
+        taps = [
+          "nikitabobko/tap"
+        ];
         
         casks = [
           "orbstack"
           "aerospace"
         ];
+          
+        onActivation.cleanup = "zap"; 
       };
 
       # The platform the configuration will be used on.
