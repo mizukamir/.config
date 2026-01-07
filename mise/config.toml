@@ -13,3 +13,7 @@ run = "docker start -ai claude-sandbox"
 [tasks.setup-tailscale]
 description = "Tailscaleの初回設定コマンド"
 run = "sudo tailscale up --ssh"
+
+[tasks.run-gitleaks-including-githistory]
+description = "Gitの履歴も含めてgitleaks実行"
+run = "gitleaks detect --source . --verbose"
