@@ -9,10 +9,11 @@
 
   outputs = { self, nixpkgs, home-manager, ... }:
     let
+      settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/../nix/mysettings.json"));
       # --- 設定変数の定義 ---
       user = "root";  # Dockerコンテナ内のユーザー
-      gitName = "Your Name";
-      gitEmail = "your.email@example.com";
+      gitName = "AI Agent";
+      gitEmail = settings.gitEmail; 
       system = "aarch64-linux"; # M4 Mac上のDocker用
 
       pkgs = nixpkgs.legacyPackages.${system};
@@ -26,7 +27,7 @@
         inherit pkgs;
 
         modules = [
-          ({ pkgs, ... }: {
+          ({ pkgs, config, ... }: {
             
             # --- ユーザー設定 ---
             home.username = user;
@@ -79,7 +80,7 @@
               };
             };
             home.activation = {
-              installGitHooks = lib.hm.dag.entryAfter ["writeBoundary"] ''
+              installGitHooks = config.lib.hm.dag.entryAfter ["writeBoundary"] ''
                 echo "Running pre-commit init-templatedir..."
                 # pre-commitコマンドを使ってテンプレートディレクトリを初期化・更新
                 # ${pkgs.pre-commit} でNixストア内の正確なパスを参照
@@ -124,8 +125,8 @@
                 eval "$(mise activate zsh)"
               '';
             };
-	    # シンボリックリンクを張る
-	    xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
+	          # シンボリックリンクを張る
+	          xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
     
             # miseの設定なども同様に
             xdg.configFile."mise".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/mise";
