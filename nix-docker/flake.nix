@@ -9,11 +9,12 @@
 
   outputs = { self, nixpkgs, home-manager, ... }:
     let
-      settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/../nix/mysettings.json"));
       # --- 設定変数の定義 ---
+      # settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/../nix/mysettings.json"));
       user = "root";  # Dockerコンテナ内のユーザー
       gitName = "AI Agent";
-      gitEmail = settings.gitEmail; 
+      # gitEmail = settings.gitEmail; 
+      gitEmail = "example@example.com"; 
       system = "aarch64-linux"; # M4 Mac上のDocker用
 
       pkgs = nixpkgs.legacyPackages.${system};
