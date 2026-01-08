@@ -2,7 +2,7 @@ nvim/lazy-lock.json
 git
 karabiner/assets
 karabiner/automatic_backups
-nix-darwin/mysettings.json
+nix/mysettings.json
 gh
 direnv
 aerospace
