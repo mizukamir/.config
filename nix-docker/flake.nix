@@ -28,7 +28,7 @@
         inherit pkgs;
 
         modules = [
-          ({ pkgs, config, ... }: {
+          ({ pkgs, config, lib, ... }: {
             
             # --- ユーザー設定 ---
             home.username = user;
@@ -81,7 +81,7 @@
               };
             };
             home.activation = {
-              installGitHooks = config.lib.hm.dag.entryAfter ["writeBoundary"] ''
+              installGitHooks = lib.hm.dag.entryAfter ["writeBoundary"] ''
                 echo "Running pre-commit init-templatedir..."
                 # pre-commitコマンドを使ってテンプレートディレクトリを初期化・更新
                 # ${pkgs.pre-commit} でNixストア内の正確なパスを参照
