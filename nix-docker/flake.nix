@@ -36,10 +36,11 @@
             home.stateVersion = "24.05"; 
             
             home.sessionVariables = {
-	      LANG = "ja_JP.UTF-8";
-	      LC_ALL = "ja_JP.UTF-8";
-	      EDITOR = "nvim";
-	    };
+	          LANG = "ja_JP.UTF-8";
+	          LC_ALL = "ja_JP.UTF-8";
+	          EDITOR = "nvim";
+	        };
+	          formatter.${system} = pkgs.nixfmt-rfc-style;
 
             # --- パッケージ ---
             home.packages = with pkgs; [
@@ -54,8 +55,8 @@
               gdu
               fd
               visidata
-	      gitleaks
-	      pre-commit
+	            gitleaks
+	            pre-commit
               
               # Runtime / Languages
               nodejs_20
@@ -86,8 +87,8 @@
                 # pre-commitコマンドを使ってテンプレートディレクトリを初期化・更新
                 # ${pkgs.pre-commit} でNixストア内の正確なパスを参照
                 ${pkgs.pre-commit}/bin/pre-commit init-templatedir ${config.home.homeDirectory}/.config/.git-template
-	      '';
-	    };
+	            '';
+	          };
 
             # Direnv設定
             programs.direnv = {
