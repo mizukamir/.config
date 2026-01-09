@@ -13,6 +13,10 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-firefox-darwin, home-manager }:
   let
+    system = "aarch64-darwin";
+    pkgs = nixpkgs.legacyPackages.${system};
+      
+
     settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/../nix/mysettings.json"));
       user = settings.user;
       host = settings.host;
@@ -56,7 +60,7 @@
       };
 
       # The platform the configuration will be used on.
-      nixpkgs.hostPlatform = "aarch64-darwin";
+      nixpkgs.hostPlatform = system;
 
       nixpkgs.config.allowUnfree = true;
       
@@ -89,5 +93,6 @@
         }
       ];
     };
+    formatter.${system} = pkgs.nixfmt-rfc-style;
   };
 }
