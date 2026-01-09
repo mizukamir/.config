@@ -1,19 +1,82 @@
-[tasks.rebuild-nix-darwin]
+# Docker用コマンド
+[env]
+REPO_URL = "https://github.com/mizumine/.config.git"
+
+# 設定項目
+IMAGE_NAME = "ubuntu-docker-nix"
+CONTAINER_NAME = "claude-sandbox"
+
+
+# 1. イメージのビルド（通常）
+[tasks."docker:build"]
+description = "Dockerイメージをビルドします"
+run = "docker build -t $IMAGE_NAME --build-arg REPO_URL=$REPO_URL ."
+
+# 2. イメージの再ビルド（設定変更時）
+[tasks."docker:rebuild"]
+description = "キャッシュを使わずにDockerイメージを再ビルドします（設定反映用）"
+run = "docker build --no-cache -t $IMAGE_NAME --build-arg REPO_URL=$REPO_URL ."
+
+# 3. コンテナの新規作成・起動（初回用）
+[tasks."docker:create"]
+description = "コンテナを新規作成して起動します"
+run = "docker run -it --name $CONTAINER_NAME $IMAGE_NAME"
+
+# 4. コンテナの再開（2回目以降）
+[tasks."docker:start"]
+description = "停止中のコンテナを再開して中に入ります"
+run = "docker start -ai $CONTAINER_NAME"
+
+# 5. 掃除（コンテナとイメージの削除）
+[tasks."docker:clean"]
+description = "コンテナとイメージを強制削除します"
+run = """
+echo "Deleting container and image..."
+docker rm -f $CONTAINER_NAME || true
+docker rmi $IMAGE_NAME || true
+"""
+
+# 6. スマート起動（あれば入る、なければ作る）
+[tasks."docker:up"]
+description = "コンテナがあれば入り、なければビルドして起動（普段はこれ）"
+run = """
+if docker ps -a --format '{% raw %}{{.Names}}{% endraw %}' | grep -q "^${CONTAINER_NAME}$"; then
+    echo "Container exists. Starting..."
+    docker start -ai $CONTAINER_NAME
+else
+    echo "Container not found. Building and creating..."
+    # イメージがなければビルド
+    if ! docker image inspect $IMAGE_NAME > /dev/null 2>&1; then
+        mise run docker:build
+    fi
+    docker run -it --name $CONTAINER_NAME $IMAGE_NAME
+fi
+"""
+
+# 7. 完全リセット（環境を作り直す時用）
+[tasks."docker:reset"]
+description = "【Warning】環境を完全に削除。最新コードで再構築して起動"
+run = """
+mise run docker:clean
+mise run docker:rebuild
+mise run docker:create
+"""
+
+# Nix
+[tasks."nix:rebuild-nix-darwin"]
 description = "nix-darwinのRebuild"
 run = "cd ~/.config/nix-darwin && sudo darwin-rebuild switch --flake ~/.config/nix-darwin --impure"
 
-[tasks.make-ubuntu2404-docker]
-description = "ubuntu24.04LTSのDocker作成"
-run = "docker run -it --name claude-sandbox ubuntu:24.04 /bin/bash"
+[tasks."nix:rebuild-nix-docker"]
+description = "Docker内のnixのRebuild"
+run = "cd ~/.config && git pull && nix run home-manager -- switch --flake ./nix-docker#root"
 
-[tasks.run-ubuntu2404-docker]
-description = "ubuntu24.04LTSのDocker起動"
-run = "docker start -ai claude-sandbox"
-
-[tasks.setup-tailscale]
+# Tailscale
+[tasks."Tailscale:setup"]
 description = "Tailscaleの初回設定コマンド"
 run = "sudo tailscale up --ssh"
 
-[tasks.run-gitleaks-including-githistory]
+# Gitleaks
+[tasks."gitleaks:run-all-history"]
 description = "Gitの履歴も含めてgitleaks実行"
 run = "gitleaks detect --source . --verbose"
