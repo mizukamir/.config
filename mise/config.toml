@@ -40,6 +40,7 @@ docker rmi $IMAGE_NAME || true
 [tasks."docker:up"]
 description = "コンテナがあれば入り、なければビルドして起動（普段はこれ）"
 run = """
+GH_TOKEN=$(gh auth token)$
 if docker ps -a --format '{% raw %}{{.Names}}{% endraw %}' | grep -q "^${CONTAINER_NAME}$"; then
     echo "Container exists. Starting..."
     docker start -ai $CONTAINER_NAME
@@ -49,7 +50,9 @@ else
     if ! docker image inspect $IMAGE_NAME > /dev/null 2>&1; then
         mise run docker:build
     fi
-    docker run -it --name $CONTAINER_NAME $IMAGE_NAME
+    docker run -it \
+        # --e GH_TOKEN="$GH_TOKEN" \
+        --name $CONTAINER_NAME $IMAGE_NAME
 fi
 """
 
