@@ -24,6 +24,8 @@
         exec "${pkgs.vscode-extensions.vadimcn.vscode-lldb}/share/vscode/extensions/vadimcn.vscode-lldb/adapter/codelldb" "$@"
       '';
     in {
+	    formatter.${system} = pkgs.nixfmt-rfc-style;
+	    
       homeConfigurations."${user}" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
@@ -40,7 +42,6 @@
 	          LC_ALL = "ja_JP.UTF-8";
 	          EDITOR = "nvim";
 	        };
-	          formatter.${system} = pkgs.nixfmt-rfc-style;
 
             # --- パッケージ ---
             home.packages = with pkgs; [
