@@ -6,3 +6,4 @@ nix/mysettings.json
 gh
 direnv
 aerospace
+zellij/config.*

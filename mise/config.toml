@@ -80,3 +80,8 @@ run = "sudo tailscale up --ssh"
 [tasks."gitleaks:run-all-history"]
 description = "Gitの履歴も含めてgitleaks実行"
 run = "gitleaks detect --source . --verbose"
+
+# zellij
+[tasks."zellij:web-dev-layout"]
+description = "Web開発用のレイアウト展開"
+run = "zellij action new-tab --layout ~/.config/zellij/layouts/web-dev.kdl"

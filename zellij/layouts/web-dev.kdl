@@ -1,0 +1,32 @@
+layout {
+    // デフォルトのタブレイアウト（枠線やステータスバー）
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    // Web開発用タブ
+    tab name="Dev" focus=true {
+        pane split_direction="vertical" {
+            // 左側: Neovim (メイン作業)
+            pane size="60%" name="Neovim" command="nvim" {
+                args "."
+            }
+            
+            // 右側: サーバー類
+            pane split_direction="horizontal" {
+                // 右上: Djangoサーバー
+                pane name="Django" command="bash" {
+                    args "-c" "echo 'Starting Django...'; python manage.py runserver" 
+                }
+                // 右下: Reactサーバー & ターミナル操作
+                pane name="Shell"
+            }
+        }
+    }
+}

@@ -25,6 +25,7 @@ in
     rustup
     gitleaks
     pre-commit
+	  zellij
 
     # Debug
     codelldb-wrapper
@@ -98,14 +99,61 @@ in
         export PATH="$HOME/.cargo/bin:$PATH"
       fi
     '';  };
-    
- programs.direnv = {
+ 
+ 
+  programs.direnv = {
+     enable = true;
+     nix-direnv.enable = true; # Nixとの連携を高速化・強化
+     enableZshIntegration = true; # zshを使っているため必須
+   };
+
+  # WezTerm
+  programs.wezterm = {
     enable = true;
-    nix-direnv.enable = true; # Nixとの連携を高速化・強化
-    enableZshIntegration = true; # zshを使っているため必須
+    
+    extraConfig = ''
+      local wezterm = require 'wezterm'
+      local act = wezterm.action
+      local config = {}
+       
+      if wezterm.config_builder then
+        config = wezterm.config_builder()
+      end
+ 
+      config.default_prog = { "${pkgs.zellij}/bin/zellij" }
+ 
+      -- 装飾系設定
+      config.enable_tab_bar = false        -- Zellijのバーと重複するので消す
+      config.window_decorations = "RESIZE" -- 枠線をシンプルに
+      
+      -- MacのOptionキーをMetaとして扱う（Zellij用）
+      config.send_composed_key_when_left_alt_is_pressed = true
+      config.send_composed_key_when_right_alt_is_pressed = true
+
+      -- 【キーマッピング設定】
+      -- Macの "Commandキー" でZellijを操作するための変換定義
+      config.keys = {
+        -- Cmd+h/j/k/l でペイン移動 (Zellijには Alt+h/j/k/l を送る)
+        { key = 'h', mods = 'CMD', action = act.SendKey { key = 'h', mods = 'ALT' } },
+        { key = 'j', mods = 'CMD', action = act.SendKey { key = 'j', mods = 'ALT' } },
+        { key = 'k', mods = 'CMD', action = act.SendKey { key = 'k', mods = 'ALT' } },
+        { key = 'l', mods = 'CMD', action = act.SendKey { key = 'l', mods = 'ALT' } },
+
+        -- Cmd+n で新規ペイン (Zellijの Alt+n)
+        { key = 'n', mods = 'CMD', action = act.SendKey { key = 'n', mods = 'ALT' } },
+        
+        -- Cmd+t で新規タブ (Zellijの Alt+t)
+        { key = 't', mods = 'CMD', action = act.SendKey { key = 't', mods = 'ALT' } },
+        
+        -- Cmd+[ / ] でタブ切り替え (Zellijの Alt+Left/Right または n/p)
+        -- Zellijのデフォルト: Alt+Left / Alt+Right ではない場合が多い
+        -- Zellij側で Alt+h/l をタブ移動にするか、ここで調整必要かも。
+      } 
+      return config
+    '';
   };
 
- xdg.configFile."aerospace/aerospace.toml".text = ''
+  xdg.configFile."aerospace/aerospace.toml".text = ''
     # Place a copy of this config to ~/.aerospace.toml
     # After that, you can edit ~/.aerospace.toml to your liking
 
