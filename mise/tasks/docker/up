@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #MISE description="コンテナがあれば入り、なければビルドして起動（普段はこれ）"
-#MISE dir = "{{cwd}}"
+#MISE render = false
 
 GH_TOKEN=$(gh auth token)
-if docker ps -a --format '{% raw %}{{.Names}}{% endraw %}' | grep -q "^${CONTAINER_NAME}$"; then
+if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
     echo "Container exists. Starting..."
     docker start -ai $CONTAINER_NAME
 else
