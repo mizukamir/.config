@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Web開発用のレイアウト展開"
+
+zellij action new-tab --layout ~/.config/zellij/layouts/web-dev.kdl

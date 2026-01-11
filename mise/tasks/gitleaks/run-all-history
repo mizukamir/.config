@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Gitの履歴も含めてgitleaks実行"
+
+gitleaks detect --source . --verbose

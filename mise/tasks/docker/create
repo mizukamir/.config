@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="コンテナを新規作成して起動します"
+
+docker run -it --name "$CONTAINER_NAME" "$IMAGE_NAME"

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="nix-darwinのRebuild"
+
+cd ~/.config/nix-darwin && sudo darwin-rebuild switch --flake ~/.config/nix-darwin --impure

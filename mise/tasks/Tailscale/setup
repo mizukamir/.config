@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Tailscaleの初回設定コマンド"
+
+sudo tailscale up --ssh

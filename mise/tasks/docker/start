@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="停止中のコンテナを再開して中に入ります"
+
+docker start -ai "$CONTAINER_NAME"

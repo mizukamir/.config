@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="【Warning】環境を完全に削除。最新コードで再構築して起動"
+
+mise run docker:clean
+mise run docker:rebuild
+mise run docker:create

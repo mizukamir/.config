@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Docker内のnixのRebuild"
+
+cd ~/.config && git pull && nix run home-manager -- switch --flake ./nix-docker#root

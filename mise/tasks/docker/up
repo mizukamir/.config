@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="コンテナがあれば入り、なければビルドして起動（普段はこれ）"
+#MISE render = false
+
+GH_TOKEN=$(gh auth token)
+if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
+    echo "Container exists. Starting..."
+    docker start -ai $CONTAINER_NAME
+else
+    echo "Container not found. Building and creating..."
+    # イメージがなければビルド
+    if ! docker image inspect $IMAGE_NAME > /dev/null 2>&1; then
+        mise run docker:build
+    fi
+    docker run -it \
+        -e GH_TOKEN="$GH_TOKEN" \
+        --name $CONTAINER_NAME $IMAGE_NAME
+fi

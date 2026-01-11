@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="キャッシュを使わずにDockerイメージを再ビルドします（設定反映用）"
+
+docker build --no-cache -t "$IMAGE_NAME" --build-arg REPO_URL="$REPO_URL" .

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="Dockerイメージをビルドします"
+
+docker build -t "$IMAGE_NAME" --build-arg REPO_URL="$REPO_URL" .

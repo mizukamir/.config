@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#MISE description="コンテナとイメージを強制削除します"
+
+echo "Deleting container and image..."
+docker rm -f "$CONTAINER_NAME" || true
+docker rmi "$IMAGE_NAME" || true
