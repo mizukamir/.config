@@ -59,7 +59,6 @@
               visidata
 	            gitleaks
 	            pre-commit
-	            zellij
               
               # Runtime / Languages
               nodejs_20
@@ -129,6 +128,14 @@
                 # --- Mise (Linux用) ---
                 eval "$(mise activate zsh)"
               '';
+            };
+
+            # zellij設定
+            programs.zellij = {
+              enable = true;
+              settings = {
+                default_shell = "${pkgs.zsh}/bin/zsh";
+              };
             };
 	          # シンボリックリンクを張る
 	          xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
