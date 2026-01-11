@@ -53,5 +53,5 @@ RUN nix run home-manager/master -- switch --flake ./nix-docker#${FLAKE_TARGET}
 # 作業ディレクトリをホームに戻す
 WORKDIR /root
 
-# デフォルトシェルをzshに設定
-CMD ["zsh"]
+# Docker起動時にzellijを実行
+CMD ["zellij"]

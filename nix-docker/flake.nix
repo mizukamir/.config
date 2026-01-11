@@ -41,6 +41,7 @@
 	          LANG = "ja_JP.UTF-8";
 	          LC_ALL = "ja_JP.UTF-8";
 	          EDITOR = "nvim";
+	          SHELL = "${pkgs.zsh}/bin/zsh";  
 	        };
 
             # --- パッケージ ---
@@ -58,6 +59,7 @@
               visidata
 	            gitleaks
 	            pre-commit
+	            zellij
               
               # Runtime / Languages
               nodejs_20
