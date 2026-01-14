@@ -25,10 +25,26 @@
       environment.systemPackages = with pkgs;
         [ vim
           git
+          autoraise
         ];
 
       # Install and activation Tailscale
       services.tailscale.enable = true;
+
+      # JankyBorders
+      services.jankyborders = {
+        enable = true;
+        style="round";
+        width=5.0;
+        hidpi=true;
+        active_color="0xff0080ff";
+        inactive_color="0xffa9a9a9";
+      };
+
+      # SketchyBar 
+      services.sketchybar = {
+        enable = true;
+      };
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -48,12 +64,14 @@
         enable = true;
           
         taps = [
-          "nikitabobko/tap"
+          "nikitabobko/tap" # For Aerospace
         ];
         
         casks = [
           "orbstack"
           "aerospace"
+          "font-hack-nerd-font"
+          "sf-symbols"
         ];
           
         onActivation.cleanup = "zap"; 

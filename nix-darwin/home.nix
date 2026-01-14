@@ -27,6 +27,9 @@ in
     pre-commit
 	  zellij
 
+	  # sketchbar font
+    sketchybar-app-font
+
     # Debug
     codelldb-wrapper
     
@@ -160,6 +163,13 @@ in
     # Config version for compatibility and deprecations
     # Fallback value (if you omit the key): config-version = 1
     config-version = 2
+
+    # settings for aerospace 
+    exec-on-workspace-change = [
+    '/bin/bash',
+    '-c',
+    '/run/current-system/sw/bin/sketchybar --trigger aerospace_workspace_change AEROSPACE_FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE AEROSPACE_PREV_WORKSPACE=$AEROSPACE_PREV_WORKSPACE'
+    ]
 
     # You can use it to add commands that run after AeroSpace startup.
     # Available commands : https://nikitabobko.github.io/AeroSpace/commands
@@ -373,5 +383,9 @@ in
         alt-shift-j = ['join-with down', 'mode main']
         alt-shift-k = ['join-with up', 'mode main']
         alt-shift-l = ['join-with right', 'mode main']
+
   ''; 
+  
+  # SketchyBarの設定ディレクトリをリンク
+  xdg.configFile."sketchybar".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/sketchybar";
 }
