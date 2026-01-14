@@ -1,1 +1,1 @@
-/nix/store/a5ms9v7nbqgs8pni715sxh6b7pffx83q-home-manager-files/.config/wezterm/wezterm.lua
+/nix/store/p3lqbd421nf7kv96vn1nz02mhziixrv6-home-manager-files/.config/wezterm/wezterm.lua

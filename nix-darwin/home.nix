@@ -122,7 +122,9 @@ in
       if wezterm.config_builder then
         config = wezterm.config_builder()
       end
- 
+      
+      config.automatically_reload_config = true
+      config.window_background_opacity = 0.85
       config.default_prog = { "${pkgs.zellij}/bin/zellij" }
  
       -- 装飾系設定
