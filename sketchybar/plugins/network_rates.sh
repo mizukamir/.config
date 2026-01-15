@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# export PATH="$PATH:$HOME/.nix-profile/bin:/run/current-system/sw/bin:/etc/profiles/per-user/$USER/bin:/opt/homebrew/bin"
 INTERFACE="en1"
 
 read initial_rx initial_tx < <(netstat -ibn | awk -v iface="$INTERFACE" '$1 == iface && $7 ~ /^[0-9]+$/ && $10 ~ /^[0-9]+$/ {print $7, $10; exit}')
