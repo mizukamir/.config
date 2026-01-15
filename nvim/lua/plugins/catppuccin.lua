@@ -86,7 +86,7 @@ return {
         crust = "#141617",
       },
     },
-    transparent_background = false,
+    transparent_background = true,
   },
   specs = {
     {
