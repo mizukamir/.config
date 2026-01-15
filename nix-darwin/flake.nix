@@ -45,7 +45,24 @@
       services.sketchybar = {
         enable = true;
       };
+        
+      # Automatically launch settings for AutoRaise
+        launchd.user.agents.autoraise = {
+        serviceConfig = {
+          ProgramArguments = [ "${pkgs.autoraise}/bin/autoraise" ];
+          KeepAlive = true;
+          RunAtLoad = true;
+        };
+      };
 
+      # Automatically launch settings for Aerospace
+      launchd.user.agents.aerospace = {
+        command = "/Applications/AeroSpace.app/Contents/MacOS/AeroSpace";
+        serviceConfig = {
+          KeepAlive = true;
+          RunAtLoad = true;
+        };
+      };
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
 
