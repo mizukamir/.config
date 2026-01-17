@@ -3,16 +3,29 @@
 #MISE render = false
 
 GH_TOKEN=$(gh auth token)
+
+# --- OrbStack純正のSSHソケットパスを指定 ---
+HOST_SOCK_PATH="$HOME/.orbstack/run/ssh-agent.sock"
+
+# もしOrbStack用ソケットがなければ、念のため標準の場所を探す（保険）
+if [ ! -S "$HOST_SOCK_PATH" ]; then
+    echo "OrbStack socket not found. Falling back to system default."
+    # macOS標準のソケットを探す
+    HOST_SOCK_PATH=$(find /private/tmp/com.apple.launchd.* -name Listeners -user "$USER" 2>/dev/null | head -n 1)
+fi
+
 if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
     echo "Container exists. Starting..."
-    docker start -ai $CONTAINER_NAME
+    docker start -ai "$CONTAINER_NAME"
 else
     echo "Container not found. Building and creating..."
-    # イメージがなければビルド
-    if ! docker image inspect $IMAGE_NAME > /dev/null 2>&1; then
+    if ! docker image inspect "$IMAGE_NAME" > /dev/null 2>&1; then
         mise run docker:build
     fi
+
     docker run -it \
         -e GH_TOKEN="$GH_TOKEN" \
-        --name $CONTAINER_NAME $IMAGE_NAME
+        -v "${HOST_SOCK_PATH}:/ssh-agent" \
+        -e SSH_AUTH_SOCK="/ssh-agent" \
+        --name "$CONTAINER_NAME" "$IMAGE_NAME"
 fi

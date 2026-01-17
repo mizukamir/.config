@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+#MISE description="コンテナのみ強制削除します"
+
+echo "Deleting container..."
+docker rm -f "$CONTAINER_NAME" || true
