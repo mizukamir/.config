@@ -137,14 +137,14 @@
                 default_shell = "${pkgs.zsh}/bin/zsh";
                 keybinds = {
                   normal = {
-                    # コンテナ側のロック開始キーを Ctrl+i に変更
-                    "bind \"Ctrl i\"" = { SwitchToMode = "Locked"; };
+                    # コンテナ側のロック開始キーを Ctrl+b に変更
+                    "bind \"Ctrl b\"" = { SwitchToMode = "Locked"; };
                     # デフォルトの Ctrl+g を無効化
                     "unbind \"Ctrl g\"" = {}; 
                   };
                   locked = {
-                    # コンテナ側のロック解除キーを Ctrl+i に変更
-                    "bind \"Ctrl i\"" = { SwitchToMode = "Normal"; };
+                    # コンテナ側のロック解除キーを Ctrl+b に変更
+                    "bind \"Ctrl b\"" = { SwitchToMode = "Normal"; };
                     # デフォルトの Ctrl+g を無効化
                     "unbind \"Ctrl g\"" = {};
                   };
