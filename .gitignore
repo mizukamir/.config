@@ -10,3 +10,6 @@ zellij/config.*
 .gitleaks.toml
 .git-template/*
 wezterm.lua
+
+# For container
+lazygit/config.yml
