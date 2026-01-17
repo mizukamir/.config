@@ -7,5 +7,6 @@ gh
 direnv
 aerospace
 zellij/config.*
-wezterm.lua.back
 .gitleaks.toml
+.git-template/*
+wezterm.lua
