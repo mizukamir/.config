@@ -135,12 +135,24 @@
               enable = true;
               settings = {
                 default_shell = "${pkgs.zsh}/bin/zsh";
+                keybinds = {
+                  normal = {
+                    # コンテナ側のロック開始キーを Ctrl+i に変更
+                    "bind \"Ctrl i\"" = { SwitchToMode = "Locked"; };
+                    # デフォルトの Ctrl+g を無効化
+                    "unbind \"Ctrl g\"" = {}; 
+                  };
+                  locked = {
+                    # コンテナ側のロック解除キーを Ctrl+i に変更
+                    "bind \"Ctrl i\"" = { SwitchToMode = "Normal"; };
+                    # デフォルトの Ctrl+g を無効化
+                    "unbind \"Ctrl g\"" = {};
+                  };
+                };
               };
             };
-	          # シンボリックリンクを張る
+	          # シンボリックリンク
 	          xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
-    
-            # miseの設定なども同様に
             xdg.configFile."mise".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/mise";
           })
         ];
