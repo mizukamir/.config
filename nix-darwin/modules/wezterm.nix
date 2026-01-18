@@ -14,8 +14,9 @@
       end
       
       config.automatically_reload_config = true
-      config.window_background_opacity = 0.85
+      config.window_background_opacity = 0.5
       config.default_prog = { "${pkgs.zellij}/bin/zellij" }
+      -- config.default_prog = { "${pkgs.zsh}/bin/zsh" }
  
       -- 装飾系設定
       config.enable_tab_bar = false

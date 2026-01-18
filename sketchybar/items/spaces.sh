@@ -32,7 +32,7 @@ for sid in $(aerospace list-workspaces --all); do
     background.corner_radius=7 \
     background.height=19 \
     label.drawing=on \
-    click_script="aerospace workspace $sid" \
+    click_script="/opt/homebrew/bin/aerospace workspace $sid" \
     script="$CONFIG_DIR/plugins/aerospace.sh $sid"
 done
 

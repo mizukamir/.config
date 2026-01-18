@@ -6,12 +6,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nix-darwin.url = "github:nix-darwin/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-firefox-darwin.url = "github:bandithedoge/nixpkgs-firefox-darwin";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nixpkgs-firefox-darwin, home-manager }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager }:
   let
     system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system};
@@ -25,7 +24,6 @@
       environment.systemPackages = with pkgs;
         [ vim
           git
-          autoraise
         ];
 
       # Install and activation Tailscale
@@ -46,10 +44,10 @@
         enable = true;
       };
         
-      # Automatically launch settings for AutoRaise
-        launchd.user.agents.autoraise = {
+      # Automatically launch settings for AltTab
+        launchd.user.agents.alttab = {
+        command = "/Applications/AltTab.app/Contents/MacOS/AltTab";
         serviceConfig = {
-          ProgramArguments = [ "${pkgs.autoraise}/bin/autoraise" ];
           KeepAlive = true;
           RunAtLoad = true;
         };
@@ -89,10 +87,27 @@
           "aerospace"
           "font-hack-nerd-font"
           "sf-symbols"
+          "alt-tab"
+          "firefox"
+          "google-chrome"
+          "raycast"
         ];
           
-        onActivation.cleanup = "zap"; 
+        onActivation = {
+          cleanup = "zap";
+          autoUpdate= true;
+        };
       };
+
+    # Hide Dock settings
+      system.defaults.dock = {
+      autohide = true;              
+      autohide-delay = 1000.0;      
+      autohide-time-modifier = 0.0; 
+      tilesize = 16;                
+      static-only = true;           
+      show-recents = false;         
+    };
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = system;
@@ -109,7 +124,7 @@
       modules = [ 
         configuration
         {
-          nixpkgs.overlays = [ nixpkgs-firefox-darwin.overlay ];
+          # nixpkgs.overlays = [ nixpkgs-firefox-darwin.overlay ];
         }
         home-manager.darwinModules.home-manager
         {

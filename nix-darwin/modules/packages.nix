@@ -15,15 +15,15 @@ in
     wezterm
     neovim
     fd 
-    obsidian
-    firefox-bin
-    google-chrome
     visidata
     mise
     rustup
     gitleaks
     pre-commit
     zellij
+
+    # gui
+    obsidian
 
     # sketchbar font
     sketchybar-app-font
