@@ -43,15 +43,6 @@
       services.sketchybar = {
         enable = true;
       };
-        
-      # Automatically launch settings for AltTab
-        launchd.user.agents.alttab = {
-        command = "/Applications/AltTab.app/Contents/MacOS/AltTab";
-        serviceConfig = {
-          KeepAlive = true;
-          RunAtLoad = true;
-        };
-      };
 
       # Automatically launch settings for Aerospace
       launchd.user.agents.aerospace = {
