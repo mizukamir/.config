@@ -4,14 +4,12 @@
 
 GH_TOKEN=$(gh auth token)
 
-# --- OrbStack純正のSSHソケットパスを指定 ---
-HOST_SOCK_PATH="$HOME/.orbstack/run/ssh-agent.sock"
-
-# もしOrbStack用ソケットがなければ、念のため標準の場所を探す（保険）
-if [ ! -S "$HOST_SOCK_PATH" ]; then
-    echo "OrbStack socket not found. Falling back to system default."
-    # macOS標準のソケットを探す
-    HOST_SOCK_PATH=$(find /private/tmp/com.apple.launchd.* -name Listeners -user "$USER" 2>/dev/null | head -n 1)
+# --- OrbStack稼働チェック ---
+# Dockerデーモンが応答するか判断
+if ! docker info > /dev/null 2>&1; then
+    echo "Error: Docker daemon is not running."
+    echo "Please launch OrbStack app first."
+    exit 1
 fi
 
 if docker ps -a --format '{{.Names}}' | grep -q "^${CONTAINER_NAME}$"; then
@@ -23,9 +21,19 @@ else
         mise run docker:build
     fi
 
+    # /run/host-services/ssh-auth.sock はMac上には見えないが
+    # docker run の引数として渡すと OrbStack が内部で解釈する
+    # -p 5173:5173       : Vite (Frontend)
+    # -p 3000:3000       : Node.js系など
+    # -p 5432:5432       : PostgreSQL (DBクライアント接続用)
+    # -p 8000-8010:8000-8010 : Django(8000) + その他予備10個
     docker run -it \
+        -p 5173:5173 \
+        -p 3000:3000 \
+        -p 5432:5432 \
+        -p 8000-8010:8000-8010 \        
         -e GH_TOKEN="$GH_TOKEN" \
-        -v "${HOST_SOCK_PATH}:/ssh-agent" \
+        -v "/run/host-services/ssh-auth.sock:/ssh-agent" \
         -e SSH_AUTH_SOCK="/ssh-agent" \
         --name "$CONTAINER_NAME" "$IMAGE_NAME"
 fi
