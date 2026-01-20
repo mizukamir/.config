@@ -1,4 +1,12 @@
 #!/usr/bin/env bash
 #MISE description="コンテナを新規作成して起動します"
 
-docker run -it --name "$CONTAINER_NAME" "$IMAGE_NAME"
+docker run -it \
+    -p 5173:5173 \
+    -p 3000:3000 \
+    -p 5432:5432 \
+    -p 8000-8010:8000-8010 \
+    -e GH_TOKEN="$GH_TOKEN" \
+    -v "/run/host-services/ssh-auth.sock:/ssh-agent" \
+    -e SSH_AUTH_SOCK="/ssh-agent" \
+    --name "$CONTAINER_NAME" "$IMAGE_NAME"
