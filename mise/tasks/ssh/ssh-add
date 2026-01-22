@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#MISE description="ssh-add"
+
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
