@@ -13,8 +13,8 @@
       # settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/../nix/mysettings.json"));
       user = "root";  # Dockerコンテナ内のユーザー
       gitName = "AI Agent";
-      # gitEmail = settings.gitEmail; 
-      gitEmail = "example@example.com"; 
+      # gitEmail = settings.gitEmail;
+      gitEmail = "example@example.com";
       system = "aarch64-linux"; # M4 Mac上のDocker用
 
       pkgs = nixpkgs.legacyPackages.${system};
@@ -25,23 +25,23 @@
       '';
     in {
 	    formatter.${system} = pkgs.nixfmt-rfc-style;
-	    
+
       homeConfigurations."${user}" = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
         modules = [
           ({ pkgs, config, lib, ... }: {
-            
+
             # --- ユーザー設定 ---
             home.username = user;
             home.homeDirectory = "/${user}";
-            home.stateVersion = "24.05"; 
-            
+            home.stateVersion = "24.05";
+
             home.sessionVariables = {
 	          LANG = "ja_JP.UTF-8";
 	          LC_ALL = "ja_JP.UTF-8";
 	          EDITOR = "nvim";
-	          SHELL = "${pkgs.zsh}/bin/zsh";  
+	          SHELL = "${pkgs.zsh}/bin/zsh";
 	        };
 
             # --- パッケージ ---
@@ -59,12 +59,12 @@
               visidata
 	            gitleaks
 	            pre-commit
-              
+
               # Runtime / Languages
               nodejs_20
               mise
               rustup
-              gcc 
+              gcc
 
               # Debug
               codelldb-wrapper
@@ -102,7 +102,7 @@
             # Zsh設定
             programs.zsh = {
               enable = true;
-              
+
               # Powerlevel10kプラグイン
               plugins = [
                 {
@@ -118,13 +118,13 @@
                 # p10k.zshがない場合の対策
                 if [[ -f "$HOME/.config/zsh/.p10k.zsh" ]]; then
                   source "$HOME/.config/zsh/.p10k.zsh"
-                fi 
+                fi
 
                 # --- Rust (Cargo) ---
                 if [ -d "$HOME/.cargo/bin" ]; then
                   export PATH="$HOME/.cargo/bin:$PATH"
                 fi
-                
+
                 # --- Mise (Linux用) ---
                 eval "$(mise activate zsh)"
               '';
@@ -140,7 +140,7 @@
                     # コンテナ側のロック開始キーを Ctrl+b に変更
                     "bind \"Ctrl b\"" = { SwitchToMode = "Locked"; };
                     # デフォルトの Ctrl+g を無効化
-                    "unbind \"Ctrl g\"" = {}; 
+                    "unbind \"Ctrl g\"" = {};
                   };
                   locked = {
                     # コンテナ側のロック解除キーを Ctrl+b に変更

@@ -14,12 +14,12 @@
   let
     system = "aarch64-darwin";
     pkgs = nixpkgs.legacyPackages.${system};
-      
+
 
     settings = builtins.fromJSON (builtins.readFile (builtins.getEnv "PWD" + "/../nix/mysettings.json"));
       user = settings.user;
       host = settings.host;
-      
+
     configuration = { pkgs, ... }: {
       environment.systemPackages = with pkgs;
         [ vim
@@ -39,7 +39,7 @@
         inactive_color="0xffa9a9a9";
       };
 
-      # SketchyBar 
+      # SketchyBar
       services.sketchybar = {
         enable = true;
       };
@@ -68,11 +68,11 @@
       system.primaryUser = "${user}";
       homebrew = {
         enable = true;
-          
+
         taps = [
           "nikitabobko/tap" # For Aerospace
         ];
-        
+
         casks = [
           "orbstack"
           "aerospace"
@@ -84,7 +84,7 @@
           "raycast"
           "nani"
         ];
-          
+
         onActivation = {
           cleanup = "zap";
           autoUpdate= true;
@@ -93,27 +93,27 @@
 
     # Hide Dock settings
       system.defaults.dock = {
-      autohide = true;              
-      autohide-delay = 1000.0;      
-      autohide-time-modifier = 0.0; 
-      tilesize = 16;                
-      static-only = true;           
-      show-recents = false;         
+      autohide = true;
+      autohide-delay = 1000.0;
+      autohide-time-modifier = 0.0;
+      tilesize = 16;
+      static-only = true;
+      show-recents = false;
     };
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = system;
 
       nixpkgs.config.allowUnfree = true;
-      
+
       users.users.${user}.home = "/Users/${user}";
     };
   in
   {
     # Build darwin flake using:
-    # $ darwin-rebuild build --flake 
+    # $ darwin-rebuild build --flake
     darwinConfigurations."${host}" = nix-darwin.lib.darwinSystem {
-      modules = [ 
+      modules = [
         configuration
         {
           # nixpkgs.overlays = [ nixpkgs-firefox-darwin.overlay ];
@@ -122,14 +122,14 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          
+
           # home.nix に 変数を渡すための設定
-          home-manager.extraSpecialArgs = { 
+          home-manager.extraSpecialArgs = {
             inherit user;
-            gitName = settings.gitName;   
-            gitEmail = settings.gitEmail; 
+            gitName = settings.gitName;
+            gitEmail = settings.gitEmail;
           };
-          
+
           # ユーザーごとの設定読み込み
           home-manager.users."${user}" = import ./home.nix;
         }
