@@ -82,6 +82,7 @@
           "firefox"
           "google-chrome"
           "raycast"
+          "nani"
         ];
           
         onActivation = {

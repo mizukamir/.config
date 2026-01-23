@@ -8,13 +8,18 @@ in
   home.packages = with pkgs; [
     ripgrep
     gh
+    fd
+    bat
+    eza
+    dust
+    typos
+    jq
     lazygit
     bottom
     gdu
     nodejs_24
     wezterm
     neovim
-    fd 
     visidata
     mise
     rustup
