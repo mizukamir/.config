@@ -51,11 +51,16 @@
               neovim
               git
               ripgrep
+              fd
               gh
+              bat
+              eza
+              dust
+              typos
+              jq
               lazygit
               bottom
               gdu
-              fd
               visidata
 	            gitleaks
 	            pre-commit
