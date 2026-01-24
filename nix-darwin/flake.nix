@@ -83,6 +83,7 @@
           "google-chrome"
           "raycast"
           "nani"
+          "spotify"
         ];
 
         onActivation = {

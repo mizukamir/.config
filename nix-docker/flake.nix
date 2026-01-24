@@ -58,6 +58,7 @@
               dust
               typos
               jq
+              ast-grep
               lazygit
               bottom
               gdu
