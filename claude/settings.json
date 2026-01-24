@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./.env*)",
+      "Read(id_rsa)",
+      "Read(id_ed25519)",
+      "Read(**/*token*)",
+      "Read(**/*key*)",
+      "Read(./secrets/**)",
+      "Read(~/.ssh/**)",
+      "Read(/etc/passwd)",
+      "Write(./database/migrations/**)"
+      "Write(.env*)"
+      "Write(**/secrets/**)"
+      "Bash(sudo*)",
+      "Bash(rm:*)",
+      "Bash(rm -rf*)",
+      "Bash(git reset:*)"
+      "Bash(git rebase:*)"
+      "Bash(curl*)",
+      "Bash(wget*)",
+      "Bash(nc*)",
+      "Bash(ssh*)",
+      "Bash(scp*)",
+      "Bash(docker system prune*)"
+      "Bash(npm uninstall:*)"
+      "Bash(npm remove:*)"
+      "Bash(psql:*)"
+      "Bash(mysql:*)"
+      "Bash(mongod:*)"
+    ]
+  }
+}
