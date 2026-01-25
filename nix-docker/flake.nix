@@ -158,11 +158,42 @@
               };
             };
 	          # シンボリックリンク
-	          xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
-            xdg.configFile."mise".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/mise";
+	          # xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
+            # xdg.configFile."mise".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/mise";
+            home.activation.syncClaudeConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+              # -------------------------------------------------------
+              # 設定: ~/.config/claude (Git管理) の中身を ~/.claude にリンクする
+              # -------------------------------------------------------
 
-            # ~/.claude を ~/.config/claude へのシンボリックリンクとして作成
-            home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/claude";
+              # パスの定義
+              SOURCE_DIR="${config.home.homeDirectory}/.config/claude"
+              TARGET_DIR="${config.home.homeDirectory}/.claude"
+
+              # ソースディレクトリが存在する場合のみ実行
+              if [ -d "$SOURCE_DIR" ]; then
+
+                # ターゲットディレクトリがなければ作成（-p: 既にあれば何もしない）
+                $DRY_RUN_CMD mkdir -p "$TARGET_DIR"
+
+                # nullglob: マッチするファイルがない場合に *.xyz のままループしないようにする設定
+                shopt -s nullglob
+
+                # ループ処理: ソース内の全ファイルをターゲットにリンク
+                for file in "$SOURCE_DIR"/*; do
+                  filename=$(basename "$file")
+
+                  # ln -sfn:
+                  # -s: シンボリックリンク作成
+                  # -f: 強制（同名ファイル/リンクがあれば上書き）
+                  # -n: リンク先がディレクトリの場合の挙動を修正
+                  $DRY_RUN_CMD ln -sfn "$file" "$TARGET_DIR/$filename"
+                done
+
+                # 設定を元に戻す
+                shopt -u nullglob
+              fi
+            '';
+
           })
         ];
       };
