@@ -160,6 +160,9 @@
 	          # シンボリックリンク
 	          xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nvim";
             xdg.configFile."mise".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/mise";
+
+            # ~/.claude を ~/.config/claude へのシンボリックリンクとして作成
+            home.file.".claude".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/claude";
           })
         ];
       };
