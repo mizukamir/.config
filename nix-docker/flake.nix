@@ -126,7 +126,7 @@
               ];
 
               # 初期化スクリプト
-              initExtra = ''
+              initContent = ''
                 # --- Powerlevel10k ---
                 # p10k.zshがない場合の対策
                 if [[ -f "$HOME/.config/zsh/.p10k.zsh" ]]; then
