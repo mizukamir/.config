@@ -84,7 +84,7 @@
           "raycast"
           "nani"
           "spotify"
-          "forklift"
+          "commander-one"
         ];
 
         onActivation = {
