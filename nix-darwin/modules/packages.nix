@@ -15,6 +15,7 @@ in
     typos
     jq
     ast-grep
+    fzf
     lazygit
     bottom
     gdu
@@ -27,6 +28,13 @@ in
     gitleaks
     pre-commit
     zellij
+
+    # Filer for terminal
+    yazi
+    zoxide
+    resvg
+    popler
+    ffmpeg
 
     # gui
     obsidian

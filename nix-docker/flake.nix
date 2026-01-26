@@ -66,6 +66,13 @@
 	            gitleaks
 	            pre-commit
 
+              # Filer for terminal
+              yazi
+              zoxide
+              resvg
+              popler
+              ffmpeg
+
               # Runtime / Languages
               nodejs_20
               mise

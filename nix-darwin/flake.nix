@@ -84,6 +84,7 @@
           "raycast"
           "nani"
           "spotify"
+          "forklift"
         ];
 
         onActivation = {
