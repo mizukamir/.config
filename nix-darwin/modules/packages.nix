@@ -33,7 +33,7 @@ in
     yazi
     zoxide
     resvg
-    popler
+    poppler
     ffmpeg
 
     # gui

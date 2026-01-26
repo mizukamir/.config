@@ -70,7 +70,7 @@
               yazi
               zoxide
               resvg
-              popler
+              poppler
               ffmpeg
 
               # Runtime / Languages
