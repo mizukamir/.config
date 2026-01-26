@@ -1,5 +1,24 @@
 {
+  "env": {
+    "SHELL": "/bin/zsh",
+    "DISABLE_AUTOUPDATER": "1"
+  },
+  "cleanupPeriodDays": 90,
+  "preferredNotifChannel": "terminal_bell",
   "permissions": {
+    "allow": [
+      "Edit",
+      "Glob",
+      "Grep",
+      "Read",
+      "TodoRead",
+      "TodoWrite",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr view:*)"
+    ],
     "deny": [
       "Read(./.env*)",
       "Read(id_rsa)",
@@ -9,25 +28,68 @@
       "Read(./secrets/**)",
       "Read(~/.ssh/**)",
       "Read(/etc/passwd)",
-      "Write(./database/migrations/**)"
-      "Write(.env*)"
-      "Write(**/secrets/**)"
+      "Write(./database/migrations/**)",
+      "Write(.env*)",
+      "Write(**/secrets/**)",
       "Bash(sudo*)",
       "Bash(rm:*)",
       "Bash(rm -rf*)",
-      "Bash(git reset:*)"
-      "Bash(git rebase:*)"
       "Bash(curl*)",
       "Bash(wget*)",
       "Bash(nc*)",
       "Bash(ssh*)",
       "Bash(scp*)",
-      "Bash(docker system prune*)"
-      "Bash(npm uninstall:*)"
-      "Bash(npm remove:*)"
-      "Bash(psql:*)"
-      "Bash(mysql:*)"
-      "Bash(mongod:*)"
+      "Bash(docker system prune*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm remove:*)",
+      "Bash(psql:*)",
+      "Bash(mysql:*)",
+      "Bash(mongod:*)",
+      "Bash(dd:*)",
+      "Bash(mkfs:*)",
+      "Bash(format:*)",
+      "Bash(chmod -R 777:*)",
+      "Bash(chmod 777:*)",
+      "Bash(chown -R:*)",
+      "Bash(apt-get install:*)",
+      "Bash(brew install:*)",
+      "Bash(npm install -g:*)",
+      "Bash(pip install:*)",
+      "Bash(gem install:*)",
+      "Bash(bundle install:*)",
+      "Bash(git config:*)",
+      "Bash(git checkout:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(git reset --hard:*)",
+      "Bash(git restore:*)",
+      "Bash(gh auth logout:*)",
+      "Bash(gh auth refresh:*)",
+      "Bash(gh repo create:*)",
+      "Bash(gh repo delete:*)",
+      "Bash(gh repo archive:*)",
+      "Bash(gh repo unarchive:*)",
+      "Bash(gh repo clone:*)",
+      "Bash(gh repo fork:*)",
+      "Bash(gh repo rename:*)",
+      "Bash(gh repo edit:*)",
+      "Bash(gh repo sync:*)",
+      "Bash(gh repo deploy-key:*)",
+      "Bash(gh gist create:*)",
+      "Bash(gh gist delete:*)",
+      "Bash(gh release create:*)",
+      "Bash(gh release delete:*)",
+      "Bash(gh release upload:*)",
+      "Bash(gh secret set:*)",
+      "Bash(gh secret delete:*)",
+      "Bash(gh ssh-key add:*)",
+      "Bash(gh ssh-key delete:*)",
+      "Bash(gh gpg-key add:*)",
+      "Bash(gh gpg-key delete:*)",
+      "Bash(gh workflow enable:*)",
+      "Bash(gh workflow disable:*)",
+      "Bash(gh workflow run:*)",
+      "Bash(gh api --method DELETE:*)"
     ]
   }
 }
